@@ -4,7 +4,7 @@
 #
 Name     : qtkeychain
 Version  : 0.9.1
-Release  : 2
+Release  : 3
 URL      : https://github.com/frankosterfeld/qtkeychain/archive/v0.9.1.tar.gz
 Source0  : https://github.com/frankosterfeld/qtkeychain/archive/v0.9.1.tar.gz
 Summary  : No detailed summary available
