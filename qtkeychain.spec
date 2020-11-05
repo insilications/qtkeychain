@@ -4,7 +4,7 @@
 #
 Name     : qtkeychain
 Version  : 0.9.1
-Release  : 4
+Release  : 5
 URL      : https://github.com/frankosterfeld/qtkeychain/archive/v0.9.1.tar.gz
 Source0  : https://github.com/frankosterfeld/qtkeychain/archive/v0.9.1.tar.gz
 Summary  : No detailed summary available
@@ -15,6 +15,7 @@ Requires: qtkeychain-lib = %{version}-%{release}
 Requires: qtkeychain-license = %{version}-%{release}
 BuildRequires : buildreq-cmake
 BuildRequires : pkgconfig(libsecret-1)
+BuildRequires : qtbase-dev
 BuildRequires : qttools-dev
 
 %description
@@ -36,6 +37,7 @@ Group: Development
 Requires: qtkeychain-lib = %{version}-%{release}
 Requires: qtkeychain-data = %{version}-%{release}
 Provides: qtkeychain-devel = %{version}-%{release}
+Requires: qtkeychain = %{version}-%{release}
 
 %description dev
 dev components for the qtkeychain package.
@@ -61,24 +63,30 @@ license components for the qtkeychain package.
 
 %prep
 %setup -q -n qtkeychain-0.9.1
+cd %{_builddir}/qtkeychain-0.9.1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1545360918
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1604604298
 mkdir -p clr-build
 pushd clr-build
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$FFLAGS -fno-lto "
+export FFLAGS="$FFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
 %cmake ..
 make  %{?_smp_mflags}
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1545360918
+export SOURCE_DATE_EPOCH=1604604298
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/qtkeychain
-cp COPYING %{buildroot}/usr/share/package-licenses/qtkeychain/COPYING
+cp %{_builddir}/qtkeychain-0.9.1/COPYING %{buildroot}/usr/share/package-licenses/qtkeychain/d0f83c8198fdd5464d2373015b7b64ce7cae607e
 pushd clr-build
 %make_install
 popd
@@ -109,4 +117,4 @@ popd
 
 %files license
 %defattr(0644,root,root,0755)
-/usr/share/package-licenses/qtkeychain/COPYING
+/usr/share/package-licenses/qtkeychain/d0f83c8198fdd5464d2373015b7b64ce7cae607e
