@@ -11,6 +11,8 @@ Source0  : file:///aot/build/clearlinux/packages/qtkeychain/qtkeychain-v0.12.0.t
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : GPL-2.0
+Requires: qtkeychain-data = %{version}-%{release}
+Requires: qtkeychain-lib = %{version}-%{release}
 BuildRequires : buildreq-cmake
 BuildRequires : gcc
 BuildRequires : gcc-dev
@@ -54,6 +56,35 @@ QtKeychain
 ==========
 QtKeychain is a Qt API to store passwords and other secret data securely. How the data is stored depends on the platform:
 
+%package data
+Summary: data components for the qtkeychain package.
+Group: Data
+
+%description data
+data components for the qtkeychain package.
+
+
+%package dev
+Summary: dev components for the qtkeychain package.
+Group: Development
+Requires: qtkeychain-lib = %{version}-%{release}
+Requires: qtkeychain-data = %{version}-%{release}
+Provides: qtkeychain-devel = %{version}-%{release}
+Requires: qtkeychain = %{version}-%{release}
+
+%description dev
+dev components for the qtkeychain package.
+
+
+%package lib
+Summary: lib components for the qtkeychain package.
+Group: Libraries
+Requires: qtkeychain-data = %{version}-%{release}
+
+%description lib
+lib components for the qtkeychain package.
+
+
 %prep
 %setup -q -n qtkeychain
 cd %{_builddir}/qtkeychain
@@ -64,7 +95,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1622861899
+export SOURCE_DATE_EPOCH=1622862019
 mkdir -p clr-build
 pushd clr-build
 export GCC_IGNORE_WERROR=1
@@ -112,12 +143,13 @@ export PATH="$PATH:/usr/local/cuda/bin:/usr/nvidia/bin:/usr/bin/haswell:/usr/bin
 export CPATH="$CPATH:/usr/local/cuda/include"
 #
 ## altflags1 end
-%cmake .. -DQTKEYCHAIN_STATIC=OFF
+%cmake .. -DQTKEYCHAIN_STATIC=OFF \
+-DLIBSECRET_SUPPORT=ON
 make  %{?_smp_mflags}    V=1 VERBOSE=1
 popd
 
 %install
-export SOURCE_DATE_EPOCH=1622861899
+export SOURCE_DATE_EPOCH=1622862019
 rm -rf %{buildroot}
 pushd clr-build
 %make_install
@@ -125,3 +157,27 @@ popd
 
 %files
 %defattr(-,root,root,-)
+
+%files data
+%defattr(-,root,root,-)
+/usr/share/qt5keychain/translations/qtkeychain_de.qm
+/usr/share/qt5keychain/translations/qtkeychain_fr.qm
+/usr/share/qt5keychain/translations/qtkeychain_ro.qm
+/usr/share/qt5keychain/translations/qtkeychain_ru.qm
+/usr/share/qt5keychain/translations/qtkeychain_zh.qm
+
+%files dev
+%defattr(-,root,root,-)
+/usr/include/qt5keychain/keychain.h
+/usr/include/qt5keychain/qkeychain_export.h
+/usr/lib64/cmake/Qt5Keychain/Qt5KeychainConfig.cmake
+/usr/lib64/cmake/Qt5Keychain/Qt5KeychainConfigVersion.cmake
+/usr/lib64/cmake/Qt5Keychain/Qt5KeychainLibraryDepends-relwithdebinfo.cmake
+/usr/lib64/cmake/Qt5Keychain/Qt5KeychainLibraryDepends.cmake
+/usr/lib64/libqt5keychain.so
+/usr/lib64/qt5/mkspecs/modules/qt_Qt5Keychain.pri
+
+%files lib
+%defattr(-,root,root,-)
+/usr/lib64/libqt5keychain.so.0.12.90
+/usr/lib64/libqt5keychain.so.1
