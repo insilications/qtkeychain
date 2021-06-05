@@ -1,2 +1,34 @@
 # This file contains additional build requirements that did not get
 # picked up automatically. One name per line, no whitespace.
+buildreq-cmake
+gcc
+gcc-dev
+gcc-libs-math
+gcc-libstdc++32
+gcc-libubsan
+gcc-locale
+libgcc1
+libsecret
+libsecret-dev
+libstdc++
+python3-dev
+python3-staticdev
+qtbase
+qtbase-dev
+qtdeclarative
+qtdeclarative-dev
+qtlocation
+qtlocation-dev
+qtsvg
+qtsvg-dev
+qttools-dev
+qtwebchannel
+qtwebchannel-dev
+qtwebengine
+qtwebengine-dev
+xz-dev
+xz-staticdev
+yaml-cpp
+yaml-cpp-dev
+zlib-dev
+zlib-staticdev
